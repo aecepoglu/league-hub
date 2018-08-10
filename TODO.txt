@@ -1,0 +1,66 @@
+# [ ] todo
+# [o] done
+#___________
+
+[ ] setup
+	[ ] check lint on commit
+	[ ] run tests on commit
+	[ ] show index.html
+	[ ] add react to system
+	[ ] continuous testing
+	[ ] continuous heroku deployment
+[ ] schemas
+	[ ] User
+		email: string
+		hash: password
+		phone: string: /[0-9]+/
+	[ ] League
+		name: string
+		# url to icon
+		icon: string
+		# url to banner
+		banner: string
+		teams: [Team]
+		minTeamSize: int: must be >=1
+		maxTeamSize: int: must be >= minTeamSize
+	[ ] Team
+		players: [Player]
+		leadeer: Player
+	[ ] Player
+		user: User
+		ranking: int
+	[ ] Match
+		date: Date
+		teams: [Team]
+		winner: Team
+		status: int:
+			0 proposal
+			1 setup
+			2 done
+			3 canceled
+[ ] use cases
+	[ ] signup (implicit)
+		this step will take place in other use cases, never on its own
+		users will signup using an email & password.
+		If they entered a phone number, they'll be asked to do sms code confirmation
+	[ ] create a league
+		Guests can create a new league (and signup while doing so)
+		I should be able to share a link of the newly created league with new people to invite them
+	[ ] manage leagues
+		admin user can login to an admin panel where they can list all leagues and manage them
+	[ ] join league
+		guests via a join-link can signup & create a team (and player) and join a league
+	[ ] find matchup
+		team leaders can find matchups
+		this search for a matchup will continue until a team is found that approves it
+		if all the options are exhausted, then the search should fail and a notification should be given.
+	[ ] appoint new leader
+		team leaders can appoint someone else in the team as the new leader
+	[ ] get matchup notification
+		when a team is proposed a matchup, the team leader gets a phone or email notification.
+		the notification should have a link that takes the user to a page where they can act on it.
+	[ ] cancel matchup
+		team leader can cancel a proposed matchup
+	[ ] approve matchup
+		team leader can approve a proposed matchup.
+		If all teams participating into a matchup have approved it, it'll be set
