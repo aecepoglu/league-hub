@@ -3,8 +3,8 @@
 #___________
 
 [ ] setup
-	[ ] check lint on commit
-	[ ] run tests on commit
+	[o] check lint on commit
+	[o] run tests on commit
 	[ ] show index.html
 	[ ] add react to system
 	[ ] continuous testing
