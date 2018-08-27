@@ -1,7 +1,14 @@
 package main
 
 import (
-	"fmt"
+	"log"
+	"net/http"
+	"io/ioutil"
+	//"path/filepath"
+	//"os"
+
+	graphql "github.com/graph-gophers/graphql-go"
+	"github.com/graph-gophers/graphql-go/relay"
 )
 
 func foo() int {
@@ -9,5 +16,21 @@ func foo() int {
 }
 
 func main() {
-	fmt.Println("foo:", foo())
+	b, err := ioutil.ReadFile("schema.graphql")
+
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+
+	str := string(b)
+	log.Print(str)
+	//log.Printf("Serving files in %s\n", assets)
+	schema := graphql.MustParseSchema(str, &resolvers{})
+	http.Handle("/graphql", &relay.Handler {Schema: schema})
+	http.Handle("/", http.FileServer(http.Dir("./assets")))
+
+	err = http.ListenAndServe(":8080", nil)
+
+	log.Fatal(err)
 }

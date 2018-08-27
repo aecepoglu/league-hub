@@ -7,8 +7,8 @@
 	[o] run tests on commit
 	[ ] show index.html
 	[ ] add react to system
-	[ ] continuous testing
-	[ ] continuous heroku deployment
+	[o] continuous testing
+	[o] continuous heroku deployment
 [ ] schemas
 	[ ] User
 		email: string
