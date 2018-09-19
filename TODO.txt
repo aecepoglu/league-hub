@@ -5,10 +5,11 @@
 [ ] setup
 	[o] check lint on commit
 	[o] run tests on commit
-	[ ] show index.html
-	[ ] add react to system
+	[o] show index.html
+	[o] add react to system
 	[o] continuous testing
 	[o] continuous heroku deployment
+	[ ] auto-create JS output from React
 [ ] schemas
 	[ ] User
 		email: string
