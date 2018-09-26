@@ -24,12 +24,12 @@ func main() {
 	}
 
 	str := string(b)
-	log.Print(str)
 	//log.Printf("Serving files in %s\n", assets)
 	schema := graphql.MustParseSchema(str, &resolvers{})
 	http.Handle("/graphql", &relay.Handler {Schema: schema})
 	http.Handle("/", http.FileServer(http.Dir("./assets")))
 
+	log.Println("Running at :8080");
 	err = http.ListenAndServe(":8080", nil)
 
 	log.Fatal(err)

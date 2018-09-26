@@ -1,0 +1,12 @@
+League-Hub
+==========
+
+## Development
+
+The backend is written in Go exposes a GraphQL API.  
+On the front-end we use ReactJS.
+
+Make sure you run the tests with `go test` and `TODO`
+
+You might want to use [graphiql](https://github.com/skevy/graphiql-app) is helpful in testing the GraphQL APIs.
+
