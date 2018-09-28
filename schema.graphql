@@ -2,6 +2,18 @@ schema {
 	query: Query
 }
 
+type User {
+	username: String!
+	email: String!
+	phone: String!
+}
+
+type Auth {
+	user: User!
+	token: String!
+}
+
 type Query {
 	hello: String!
+	login(username: String!, password: String!): Auth!
 }
