@@ -2,8 +2,8 @@
 
 echo "Linting..."
 
-go vet || exit 1
+go vet ./src || exit 1
 
 echo "Testing..."
 
-go test || exit 1
+go test ./src || exit 1
