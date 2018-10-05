@@ -16,6 +16,12 @@ func foo() int {
 }
 
 func main() {
+	err := LoadConfig()
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+
 	b, err := ioutil.ReadFile("schema.graphql")
 
 	if err != nil {
@@ -27,7 +33,7 @@ func main() {
 	//log.Printf("Serving files in %s\n", assets)
 	schema := graphql.MustParseSchema(str, &resolvers{})
 	http.Handle("/graphql", &relay.Handler {Schema: schema})
-	http.Handle("/", http.FileServer(http.Dir("./assets")))
+	http.Handle("/", http.FileServer(http.Dir("../assets")))
 
 	log.Println("Running at :8080");
 	err = http.ListenAndServe(":8080", nil)
