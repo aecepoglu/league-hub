@@ -22,8 +22,13 @@ func main() {
 		return
 	}
 
-	b, err := ioutil.ReadFile("schema.graphql")
+	err = ConnectRedis()
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
 
+	b, err := ioutil.ReadFile("schema.graphql")
 	if err != nil {
 		log.Fatal(err)
 		return
