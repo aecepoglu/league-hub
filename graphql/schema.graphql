@@ -3,7 +3,6 @@ schema {
 }
 
 type User {
-	username: String!
 	email: String!
 	phone: String!
 }
@@ -15,5 +14,6 @@ type Auth {
 
 type Query {
 	hello: String!
-	login(username: String!, password: String!): Auth!
+	login(email: String!, password: String!): Auth!
+        whoami(): User
 }

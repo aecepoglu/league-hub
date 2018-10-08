@@ -1,9 +1,0 @@
-#!/bin/sh
-
-echo "Linting..."
-
-go vet ./src || exit 1
-
-echo "Testing..."
-
-go test ./src || exit 1

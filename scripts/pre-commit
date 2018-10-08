@@ -1,0 +1,9 @@
+#!/bin/sh
+
+echo "Linting..."
+
+go vet || exit 1
+
+echo "Testing..."
+
+go test ./ ./graphql ./config ./test || exit 1

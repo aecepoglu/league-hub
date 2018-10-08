@@ -3,12 +3,11 @@ package main
 import (
 	"log"
 	"net/http"
-	"io/ioutil"
 	//"path/filepath"
 	//"os"
 
-	graphql "github.com/graph-gophers/graphql-go"
-	"github.com/graph-gophers/graphql-go/relay"
+	league "github.com/aecepoglu/league-hub/graphql"
+	config "github.com/aecepoglu/league-hub/config"
 )
 
 func foo() int {
@@ -16,28 +15,35 @@ func foo() int {
 }
 
 func main() {
-	err := LoadConfig()
+	conf, err := config.LoadConfig()
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	
+	
+	db, err := connectDb("dev.db")
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	league.SetDb(db)
+
+	redis, err := connectRedis(conf.RedisUri)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	league.SetRedis(redis)
+
+	h, err := league.Handler()
 	if err != nil {
 		log.Fatal(err)
 		return
 	}
 
-	err = ConnectRedis()
-	if err != nil {
-		log.Fatal(err)
-		return
-	}
-
-	b, err := ioutil.ReadFile("schema.graphql")
-	if err != nil {
-		log.Fatal(err)
-		return
-	}
-
-	str := string(b)
+	http.Handle("/graphql", h)
 	//log.Printf("Serving files in %s\n", assets)
-	schema := graphql.MustParseSchema(str, &resolvers{})
-	http.Handle("/graphql", &relay.Handler {Schema: schema})
 	http.Handle("/", http.FileServer(http.Dir("../assets")))
 
 	log.Println("Running at :8080");
