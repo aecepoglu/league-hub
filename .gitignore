@@ -1,2 +1,4 @@
 **/*.db
 league-hub
+client/node_modules
+client/public/bundle.js

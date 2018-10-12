@@ -1,29 +1,7 @@
-const name = "ahmet emre";
+const React = require("react");
+const gql = require("./util/graphql").Send;
 
-function gqlRequest(query, variables) {
-	return fetch(window.location.origin + "/graphql", {
-		method: "POST",
-		headers: {
-			"content-type": "application/json"
-		},
-		body: JSON.stringify({
-			query: query,
-			variables: variables
-		})
-	}).then(resp => resp.json())
-		.then(x => {
-			if (x.errors) {
-				return Promise.reject(x.errors);
-			}
-			return x.data;
-		});
-}
-
-function fetcher(params) {
-	return gqlRequest(params.query, params.variables);
-}
-
-class Login extends React.Component {
+module.exports = class Login extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -68,7 +46,7 @@ class Login extends React.Component {
 	}
 
 	handleSubmit(e) {
-		gqlRequest("query($U: String!, $P: String!) { login(email: $U, password: $P) { token } }", {
+		gql("query($U: String!, $P: String!) { login(email: $U, password: $P) { token } }", {
 			U: this.state.email.current.value,
 			P: this.state.password.current.value
 		}).then(x => {
@@ -78,14 +56,4 @@ class Login extends React.Component {
 		});
 		e.preventDefault();
 	}
-}
-
-ReactDOM.render(
-	<Login />,
-	root
-);
-
-ReactDOM.render(
-	<GraphiQL fetcher={gqlRequest} editorTheme="ambiance" />,
-	document.querySelector("#graphiql")
-);
+};

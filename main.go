@@ -44,7 +44,7 @@ func main() {
 
 	http.Handle("/graphql", h)
 	//log.Printf("Serving files in %s\n", assets)
-	http.Handle("/", http.FileServer(http.Dir("./assets")))
+	http.Handle("/", http.FileServer(http.Dir("./client/public")))
 
 	log.Println("Running at :8080");
 	err = http.ListenAndServe(":8080", nil)
