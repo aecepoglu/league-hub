@@ -1,7 +1,9 @@
-const React = require("react");
-const gql = require("./util/graphql").Send;
+import React from "react";
+import {send as gql} from "./util/graphql";
+import {router} from "./router";
+import auth from "./util/auth";
 
-module.exports = class Login extends React.Component {
+class Login extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -46,14 +48,17 @@ module.exports = class Login extends React.Component {
 	}
 
 	handleSubmit(e) {
+		e.preventDefault();
 		gql("query($U: String!, $P: String!) { login(email: $U, password: $P) { token } }", {
 			U: this.state.email.current.value,
 			P: this.state.password.current.value
 		}).then(x => {
-			console.log("good", x);
+			auth.save(x.login.token);
+			router.navigate({name: "home"});
 		}).catch(e => {
 			console.log("bad", e);
 		});
-		e.preventDefault();
 	}
-};
+}
+
+export default Login;

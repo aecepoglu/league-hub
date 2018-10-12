@@ -1,6 +1,6 @@
 const fetch = require("isomorphic-fetch");
 
-exports.Fetch = function(params) {
+function request(params) {
 	return fetch(window.location.origin + "/graphql", {
 		method: "POST",
 		headers: {
@@ -10,8 +10,8 @@ exports.Fetch = function(params) {
 	}).then(resp => resp.json());
 }
 
-exports.Send = function(query, variables) {
-	exports.Fetch({
+function send(query, variables) {
+	return request({
 		query: query,
 		variables: variables
 	}).then(x => {
@@ -20,4 +20,6 @@ exports.Send = function(query, variables) {
 		}
 		return x.data;
 	});
-};
+}
+
+export {request, send};

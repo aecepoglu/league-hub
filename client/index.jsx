@@ -1,14 +1,17 @@
-const name = "ahmet emre";
+import GraphiQL from "graphiql";
+import React from "react";
+import ReactDOM from "react-dom";
 
-const React = require("react");
-const ReactDOM = require("react-dom");
-const GraphiQL = require("graphiql");
-
-const Login = require("./login.jsx");
-import {Fetch as fetcher} from "./util/graphql";
+import {request as fetcher} from "./util/graphql";
+import {history, Router} from "./router";
 
 ReactDOM.render(
-	<Login />,
+	<Router>
+		{({response}) => {
+			console.log(response);
+			return <response.body params={response.params} />;
+		}}
+	</Router>,
 	document.querySelector("#root")
 );
 

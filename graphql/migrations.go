@@ -6,8 +6,8 @@ import (
 
 func migrate() {
 	db.AutoMigrate(&User{})
-	if db.Where("email = ?", "admin").First(&User{}).RecordNotFound() {
-		log.Println("Creating admin user")
+	if db.Where("email = ?", "admin@mail.com").First(&User{}).RecordNotFound() {
+		log.Println("Creating admin user with pass " + conf.AdminPass)
 		db.Create(&User{
 			Email: "admin@mail.com",
 			Password: encryptPass(conf.AdminPass),

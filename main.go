@@ -3,11 +3,10 @@ package main
 import (
 	"log"
 	"net/http"
-	//"path/filepath"
-	//"os"
 
 	league "github.com/aecepoglu/league-hub/graphql"
 	config "github.com/aecepoglu/league-hub/config"
+	"github.com/aecepoglu/league-hub/reactFileServer"
 )
 
 func foo() int {
@@ -20,8 +19,8 @@ func main() {
 		log.Fatal(err)
 		return
 	}
-	
-	
+	league.SetConf(conf)
+
 	db, err := connectDb("dev.db")
 	if err != nil {
 		log.Fatal(err)
@@ -44,9 +43,10 @@ func main() {
 
 	http.Handle("/graphql", h)
 	//log.Printf("Serving files in %s\n", assets)
-	http.Handle("/", http.FileServer(http.Dir("./client/public")))
+	http.Handle("/", reactFileServer.New("./client/public"))
 
 	log.Println("Running at :8080");
+	//TODO handle https
 	err = http.ListenAndServe(":8080", nil)
 
 	log.Fatal(err)
