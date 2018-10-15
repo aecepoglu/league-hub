@@ -23,9 +23,13 @@
 		teams: [Team]
 		minTeamSize: int: must be >=1
 		maxTeamSize: int: must be >= minTeamSize
+		# is the league can be viewed by others
+		isPrivate: bool
+		# is the league is invite-only or open
+		isInviteOnly: bool
 	[ ] Team
 		players: [Player]
-		leadeer: Player
+		leader: Player
 	[ ] Player
 		user: User
 		ranking: int
@@ -38,21 +42,10 @@
 			1 setup
 			2 done
 			3 canceled
-[ ] tests
-	[ ] auth
-		[ ] all queries that have the Auth-Token field get authenticated
-		[ ] whoami() is secure
-		[ ] login() is insecure
-		[ ] login returns auth-token which can be used to access secure queries & mutations
 [ ] use cases
-	[!] login
+	[o] login
 		Guests can login using their email and password.
 		Once they login, until they logout or they are timed out (in 1 hour?) they can access the system.
-
-		[o] login(username, password) API
-		[o] whoami() API
-		[ ] login screen
-		[ ] home screen
 	[!] logout
 		Terminates the current user's session
 	[ ] signup (implicit)

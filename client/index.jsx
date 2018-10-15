@@ -8,7 +8,6 @@ import {history, Router} from "./router";
 ReactDOM.render(
 	<Router>
 		{({response}) => {
-			console.log(response);
 			return <response.body params={response.params} />;
 		}}
 	</Router>,

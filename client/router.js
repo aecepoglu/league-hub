@@ -5,11 +5,12 @@ import {curiProvider} from "@curi/react-dom";
 import Login from "./login.jsx";
 import Home from "./home.jsx";
 import NotFound from "./not-found.jsx";
+import Welcome from "./welcome.jsx";
 
 const ROUTES = [{
-	name: "login",
+	name: "welcome",
 	path: "",
-	response: () => ({body: Login})
+	response: () => ({body: Welcome})
 }, {
 	name: "home",
 	path: "home",
