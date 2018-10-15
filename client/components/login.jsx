@@ -1,8 +1,8 @@
 import React from "react";
 import AsyncButton from 'react-async-button';
-import {send as gql} from "./util/graphql";
-import {router} from "./router";
-import auth from "./util/auth";
+import {send as gql} from "../util/graphql";
+import {router} from "../router";
+import auth from "../util/auth";
 
 class Login extends React.Component {
 	constructor(props) {

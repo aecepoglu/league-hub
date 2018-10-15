@@ -12,6 +12,9 @@ module.exports = {
 		filename: "bundle.js"
 	},
 
+	resolve: {
+		extensions: [".js", ".jsx"]
+	},
 	module: {
 		rules: [{
 			test: /\.jsx?$/,
@@ -20,6 +23,18 @@ module.exports = {
 		}, {
 			test: /\.flow$/,
 			loader: "ignore-loader",
+		}, {
+			test: /\.css$/,
+			use: [
+				"style-loader",
+				{
+					loader: "css-loader",
+					options: {
+						modules: true,
+						localIdentName: "[sha1:hash:hex:4]",
+					}
+				}
+			]
 		}]
 	}
 };

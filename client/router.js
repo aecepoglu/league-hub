@@ -2,10 +2,11 @@ import Browser from "@hickory/browser";
 import {curi} from "@curi/router";
 import {curiProvider} from "@curi/react-dom";
 
-import Login from "./login.jsx";
-import Home from "./home.jsx";
-import NotFound from "./not-found.jsx";
-import Welcome from "./welcome.jsx";
+import Login from "./components/login";
+import Home from "./components/home";
+import NotFound from "./components/not-found";
+import Welcome from "./components/welcome";
+import AdminPanel from "./components/admin-panel";
 
 const ROUTES = [{
 	name: "welcome",
@@ -15,6 +16,10 @@ const ROUTES = [{
 	name: "home",
 	path: "home",
 	response: () => ({body: Home})
+}, {
+	name: "admin",
+	path: "admin",
+	response: () => ({body: AdminPanel})
 }, {
 	name: "not found",
 	path: "(.*)",

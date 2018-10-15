@@ -1,0 +1,16 @@
+.container {
+	position: relative;
+	display: inline-block;
+	width: 7em;
+	overflow: hidden;
+}
+
+.container > div {
+	position: absolute;
+	width: 100%;
+	transition-duration: 750ms;
+}
+
+.container > div > div {
+	text-align: center;
+}
