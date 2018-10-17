@@ -15,6 +15,29 @@ class Welcome extends React.Component {
 			"laser tag",
 			"Yu-Gi-Oh!",		
 		];
+
+		this.showJoinLeague = this.showJoinLeague.bind(this);
+		this.showCreateLeague = this.showCreateLeague.bind(this);
+
+		this.state = {
+			isJoinShown: false,
+			isCreateShown: false,
+		};
+	}
+
+	showJoinLeague() {
+		this.setState({
+			isJoinShown: true,
+			isCreateShown: false,
+		});
+		console.log("isJoinShown true");
+	}
+
+	showCreateLeague() {
+		this.setState({
+			isJoinShown: false,
+			isCreateShown: true,
+		});
 	}
 
 	render() {
@@ -55,12 +78,25 @@ class Welcome extends React.Component {
 				</div>
 			</div>
 
-			<section className="section is-medium has-text-centered">
-				<a className="button subtitle">
-					Find a league to join
-				</a> <a className="button subtitle">
-					or Create your own
-				</a>
+			<section className="section is-medium level">
+				<p className="level-item">
+					<a className={`level-item button subtitle ${this.state.isJoinShown ? "is-hidden" : ""}`} onClick={this.showJoinLeague}>
+						Find a league to join
+					</a>
+
+					<span className={this.state.isJoinShown ? "" : "is-hidden"}>
+						join
+					</span>
+				</p>
+				<p className="level-item">
+					<a className={`level-item button subtitle ${this.state.isCreateShown ? "is-hidden" : ""}`} onClick={this.showCreateLeague}>
+						Create your own league
+					</a>
+
+					<span className={this.state.isCreateShown ? "" : "is-hidden"}>
+						create
+					</span>
+				</p>
 			</section>
 		</div>
 		)
