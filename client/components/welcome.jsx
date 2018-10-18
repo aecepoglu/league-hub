@@ -1,5 +1,6 @@
 import React from "react";
 import SlotMachine from "./slot-machine";
+import LeagueCreator from "./league-creator";
 
 class Welcome extends React.Component {
 	constructor(props) {
@@ -79,7 +80,7 @@ class Welcome extends React.Component {
 			</div>
 
 			<section className="section is-medium level">
-				<p className="level-item">
+				<div className="level-item">
 					<a className={`level-item button subtitle ${this.state.isJoinShown ? "is-hidden" : ""}`} onClick={this.showJoinLeague}>
 						Find a league to join
 					</a>
@@ -87,16 +88,16 @@ class Welcome extends React.Component {
 					<span className={this.state.isJoinShown ? "" : "is-hidden"}>
 						join
 					</span>
-				</p>
-				<p className="level-item">
+				</div>
+				<div className="level-item">
 					<a className={`level-item button subtitle ${this.state.isCreateShown ? "is-hidden" : ""}`} onClick={this.showCreateLeague}>
 						Create your own league
 					</a>
 
-					<span className={this.state.isCreateShown ? "" : "is-hidden"}>
-						create
-					</span>
-				</p>
+					<div className={this.state.isCreateShown ? "" : "is-hidden"}>
+						<LeagueCreator/>
+					</div>
+				</div>
 			</section>
 		</div>
 		)

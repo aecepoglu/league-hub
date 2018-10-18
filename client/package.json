@@ -1,5 +1,9 @@
 {
   "name": "league-hub-client",
+  "scripts": {
+	  "build": "webpack",
+	  "buildw": "webpack --watch"
+  },
   "dependencies": {
     "@curi/react-dom": "^1.1.0",
     "@hickory/browser": "^1.0.2",
