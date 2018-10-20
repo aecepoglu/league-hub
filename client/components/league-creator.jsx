@@ -78,6 +78,7 @@ class LeagueCreator extends React.Component {
 				throw new ValidationError(errors);
 			}
 
+			console.log(this.state);
 		}).catch(err => {
 			if (err instanceof ValidationError) {
 				this.setState({errors: err.errors});
@@ -126,14 +127,14 @@ class LeagueCreator extends React.Component {
 				<div className="field">
 					<div className="control">
 						<label className="radio">
-							<input type="radio" name="isOpen" value="no"
+							<input type="radio" name="isOpen" value="yes"
 								checked={this.state.isOpen == true}
 								onChange={this.handleRadioChange}
 							/>
 							Open
 						</label>
 						<label className="radio">
-							<input type="radio" name="isOpen" value="yes"
+							<input type="radio" name="isOpen" value="no"
 								checked={this.state.isOpen != true}
 								onChange={this.handleRadioChange}
 							/>
