@@ -1,5 +1,6 @@
 schema {
 	query: Query
+	mutation: Mutation
 }
 
 type User {
@@ -12,8 +13,24 @@ type Auth {
 	token: String!
 }
 
+type Sport {
+	name: String!
+	teamSize: Int!
+	createdBy: User!
+}
+
+input SportInput {
+	name: String!
+	teamSize: Int!
+}
+
 type Query {
 	hello: String!
 	login(email: String!, password: String!): Auth!
-        whoami(): User
+	whoami(): User
+	listSports(): [Sport]
+}
+
+type Mutation {
+	createSport(in: SportInput!): Sport!
 }

@@ -1,42 +1,54 @@
 package graphql
 
 import (
-	"testing"
-	"github.com/stretchr/testify/assert"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
-func setupDb(t *testing.T) {
+func setupTestDb(t *testing.T) {
 	_db, err := gorm.Open("sqlite3", "test.db")
 	assert.Nil(t, err)
 	db = _db
 	db.LogMode(false)
-	migrate()
 }
 
-func cleanupDb(t *testing.T) {
+func cleanupTestDb(t *testing.T) {
 	assert.Nil(t, db.Close())
 	db = nil
 }
 
-func TestDbCreatesAdmin(t *testing.T) {
-	setupDb(t)
+func TestMigrationsCreatesAdmin(t *testing.T) {
+	setupTestDb(t)
 	db.DropTableIfExists(&User{})
+	assert.Nil(t, migrate())
 	assert.False(t, db.Where("email = ? AND password = ?", "admin@mail.com", encryptPass(conf.AdminPass)).First(&User{}).RecordNotFound())
 
-	cleanupDb(t)
+	cleanupTestDb(t)
 }
 
-func TestDbDoesntCreatesAdminIfExists(t *testing.T) {
-	setupDb(t)
+func TestMigrationsDoesntCreatesAdminIfExists(t *testing.T) {
+	setupTestDb(t)
 	db.DropTableIfExists(&User{})
 	db.AutoMigrate(&User{})
 	db.Create(&User{
-		Email: "admin@mail.com",
+		Email:    "admin@mail.com",
 		Password: "old admin pass",
 	})
+	assert.Nil(t, migrate())
+	assert.NotEqual(t, "old admin pass", encryptPass("old admin pass"))
 	assert.False(t, db.Where("email = ? AND password = ?", "admin@mail.com", "old admin pass").First(&User{}).RecordNotFound())
+	assert.True(t, db.Where("email = ? AND password = ?", "admin@mail.com", encryptPass(conf.AdminPass)).First(&User{}).RecordNotFound())
+	cleanupTestDb(t)
+}
 
-	cleanupDb(t)
+func TestMigrationsCreatesDefaultSports(t *testing.T) {
+	setupTestDb(t)
+	db.DropTableIfExists(&Sport{})
+	assert.Nil(t, migrate())
+	var count int
+	assert.Nil(t, db.Model(&Sport{}).Count(&count).Error)
+	assert.Equal(t, 2, count)
+	cleanupTestDb(t)
 }

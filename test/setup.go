@@ -37,7 +37,8 @@ func (jp MyJsonpath) MustGet(path string) interface{} {
 }
 
 type GraphqlQuery struct {
-	Query string `json:"query"`
+	Query     string                 `json:"query"`
+	Variables map[string]interface{} `json:"variables"`
 }
 
 func startServer(t *testing.T) MyGraphqlClient {
@@ -61,6 +62,7 @@ func startServer(t *testing.T) MyGraphqlClient {
 		t.Fatal(err)
 	} else {
 		db.DropTableIfExists("users")
+		db.DropTableIfExists("sports")
 		db.LogMode(false)
 		league.SetDb(db)
 	}
@@ -88,18 +90,21 @@ func startServer(t *testing.T) MyGraphqlClient {
 type MyGraphqlClient struct {
 	server *httptest.Server
 	client *http.Client
-	token string
+	token  string
 	//t *testing.T
 }
 
-func (c *MyGraphqlClient) Send(t *testing.T, query string) MyJsonpath {
+func (c *MyGraphqlClient) Sendv(t *testing.T, query string, variables map[string]interface{}) MyJsonpath {
 	t.Logf("Query: %s", query)
 	bs, err := json.Marshal(GraphqlQuery{
-		Query: query,
+		Query:     query,
+		Variables: variables,
 	})
 	if err != nil {
 		t.Fatal(err)
 	}
+
+	t.Logf("Query JSON: %s", bs)
 
 	req, err := http.NewRequest("POST", c.server.URL, bytes.NewReader(bs))
 	if err != nil {
@@ -129,6 +134,10 @@ func (c *MyGraphqlClient) Send(t *testing.T, query string) MyJsonpath {
 	var v interface{}
 	json.Unmarshal(b.Bytes(), &v)
 	return NewMyJsonpath(v, t)
+}
+
+func (c *MyGraphqlClient) Send(t *testing.T, query string) MyJsonpath {
+	return c.Sendv(t, query, nil)
 }
 
 /** logins the user and saves its token **/

@@ -1,14 +1,14 @@
 package graphql
 
 import (
-	"errors"
 	"context"
-	"time"
+	"errors"
 	"github.com/satori/go.uuid"
+	"time"
 )
 
 type Auth struct {
-	user User
+	user  User
 	token string
 }
 
@@ -22,7 +22,7 @@ func (a *Auth) Token() string {
 	return a.token
 }
 
-func (_ *resolvers) Login(_ context.Context, s *struct{Email, Password string}) (*Auth, error) {
+func (_ *resolvers) Login(_ context.Context, s *struct{ Email, Password string }) (*Auth, error) {
 	var u User
 	if db.Where("email = ? AND password = ?", s.Email, encryptPass(s.Password)).First(&u).RecordNotFound() {
 		return nil, errors.New("bad auth")
@@ -34,8 +34,8 @@ func (_ *resolvers) Login(_ context.Context, s *struct{Email, Password string}) 
 	}
 	ts := t.String()
 
-	a := Auth {
-		user: u,
+	a := Auth{
+		user:  u,
 		token: ts,
 	}
 
@@ -46,7 +46,7 @@ func (_ *resolvers) Login(_ context.Context, s *struct{Email, Password string}) 
 }
 
 func (_ *resolvers) Whoami(ctx context.Context) (*User, error) {
-	u, err := getAuthUser(ctx)
+	u, err := getCtxUser(ctx)
 
 	return u, err
 }

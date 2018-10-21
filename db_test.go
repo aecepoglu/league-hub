@@ -1,8 +1,8 @@
 package main
 
 import (
-	"testing"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestDbConnect(t *testing.T) {
@@ -10,4 +10,3 @@ func TestDbConnect(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, db)
 }
-

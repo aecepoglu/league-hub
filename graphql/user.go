@@ -5,9 +5,9 @@ import (
 )
 
 type User struct {
-	Email string `gorm:"primary_key;index"`
+	Email    string `gorm:"primary_key;index"`
 	Password string `gorm:"not null"`
-	Phone string
+	Phone    string
 }
 
 func encryptPass(pass string) string {
@@ -22,4 +22,8 @@ func (u *User) EMAIL() string {
 
 func (u *User) PHONE() string {
 	return u.Phone
+}
+
+func (u *User) ID() string {
+	return u.Email
 }

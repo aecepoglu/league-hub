@@ -3,26 +3,34 @@ package graphql
 import (
 	"context"
 	"errors"
-	"io/ioutil"
-	"net/http"
+	"github.com/aecepoglu/league-hub/config"
+	"github.com/go-redis/redis"
 	graphql "github.com/graph-gophers/graphql-go"
 	"github.com/graph-gophers/graphql-go/relay"
-	"github.com/go-redis/redis"
 	"github.com/jinzhu/gorm"
-	"github.com/aecepoglu/league-hub/config"
+	"io/ioutil"
+	"net/http"
 )
 
 var redisClient *redis.Client
 var db *gorm.DB
 var conf config.ConfigType
 
-func getAuthUser(ctx context.Context) (*User, error) {
+func getCtxUser(ctx context.Context) (*User, error) {
 	p := ctx.Value("user")
-	if p == nil {
-		return nil, errors.New("unauth")
+
+	if p != nil {
+		u := p.(*User)
+		if u != nil {
+			return u, nil
+		}
 	}
 
-	return p.(*User), nil
+	return nil, errors.New("unauth")
+}
+
+func newCtxWithUser(ctx context.Context, user *User) context.Context {
+	return context.WithValue(ctx, "user", user)
 }
 
 func Handler() (http.Handler, error) {
@@ -39,7 +47,7 @@ func Handler() (http.Handler, error) {
 
 		t := r.Header.Get("Auth-Token")
 		if t == "" {
-			gqlHandler.ServeHTTP(w, r.WithContext(context.WithValue(ctx, "user", nil)))
+			gqlHandler.ServeHTTP(w, r.WithContext(newCtxWithUser(ctx, nil)))
 			return
 		}
 
@@ -52,11 +60,11 @@ func Handler() (http.Handler, error) {
 			return
 		}
 
-		u := User {
+		u := User{
 			Email: usernamer.Val(),
 		}
 
-		gqlHandler.ServeHTTP(w, r.WithContext(context.WithValue(ctx, "user", &u)))
+		gqlHandler.ServeHTTP(w, r.WithContext(newCtxWithUser(ctx, &u)))
 	}), nil
 }
 

@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	league "github.com/aecepoglu/league-hub/graphql"
 	config "github.com/aecepoglu/league-hub/config"
+	league "github.com/aecepoglu/league-hub/graphql"
 	"github.com/aecepoglu/league-hub/reactFileServer"
 )
 
@@ -45,7 +45,7 @@ func main() {
 	//log.Printf("Serving files in %s\n", assets)
 	http.Handle("/", reactFileServer.New("./client/public"))
 
-	log.Println("Running at :8080");
+	log.Println("Running at :8080")
 	//TODO handle https
 	err = http.ListenAndServe(":8080", nil)
 
